@@ -95,7 +95,6 @@
             $cliente->setEmail($registro['email']);
                 return $cliente;
             }
-            return null;
         }
 
     }
