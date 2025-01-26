@@ -60,19 +60,25 @@
             break;
     
         case 4:
-            //BUSCAR CLIENTE PELO ID
+            echo "Buscar Cliente pelo ID\n";
+            $id = readline("Informe o ID do cliente: ");
 
-            //1- LER O ID
-            $id = 0;
-
-            //2- CHAMAR O METODO QUE RETORNA O OBJETO CLIENTE DO BANCO DE DADOS
             $clienteDAO = new ClienteDAO();
             $cliente = $clienteDAO->buscarPorId($id);
 
-            //3- VERIFICAR SE O CLIENTE RETORNAR É DIFERENTE DE NULL
-            //3.1- SE FOR DIFERENTE DE NULL, MOSTRAR DADOS DO CLIENTE
-            //3.2- SE FOR IGUAL A NULL, MOSTRAR MENSAGEM QUE O CLIENTE NÃO FOI ENCONTRADO
-
+            if ($cliente !== null) {
+                echo "Cliente encontrado:\n";
+                printf("%d- %s | %s | %s | %s | %s\n", 
+                    $cliente->getId(), 
+                    $cliente->getTipo(), 
+                    $cliente->getNomeSocial(),
+                    ($cliente instanceof ClientePF ? "CPF" : "CNPJ"), 
+                    $cliente->getNroDoc(), 
+                    $cliente->getEmail()
+                );
+            } else {
+                echo "Cliente não encontrado!\n";
+            }
             break;
 
         case 5:
