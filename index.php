@@ -55,8 +55,8 @@
             foreach($clientes as $c) {
                 printf("%d- %s | %s | %s | %s | %s\n", $c->getId(), $c->getTipo(), $c->getNomeSocial(),
                 $c->getIdentificacao(), $c->getNroDoc(), $c->getEmail());
-
             }
+
             break;
     
         case 4:
@@ -82,6 +82,22 @@
             break;
 
         case 5:
+            echo "Excluir Cliente pelo ID\n";
+
+            $clienteDAO = new ClienteDAO();
+
+            $clientes = $clienteDAO->listarClientes();
+
+            foreach($clientes as $c) {
+                printf("%d- %s | %s | %s | %s | %s\n", $c->getId(), $c->getTipo(), $c->getNomeSocial(),
+                $c->getIdentificacao(), $c->getNroDoc(), $c->getEmail());
+            }
+            
+            $id = readline("Informe o ID do cliente: ");
+
+            $clienteDAO->excluirCliente($id);
+
+            echo "Cliente excluído com sucesso!\n\n";
             break;
         
         case 0:
