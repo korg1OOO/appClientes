@@ -49,6 +49,35 @@
             return $clientes;
         }
 
+        public function buscarPorId(int $idCliente) {
+            $con = Conexao::getCon();
+
+            $sql = "SELECT * FROM clientes WHERE id = ?";
+        
+            $stm = $con->prepare($sql);
+            $stm->execute([$idCliente]);
+
+            $registros = $stm->fetchAll();
+
+            $clientes = $this->mapClientes($registros);
+            
+            if (count($clientes) > 0)
+                return $clientes[0];
+            else
+                return null;
+            }
+
+        public function excluirCliente(int $idCliente) {
+            $con = Conexao::getCon();
+            
+            $sql = "DELETE FROM clientes WHERE id = ?";
+            
+            $stm = $con->prepare($sql);
+            $stm->execute([$idCliente]);
+
+            
+        }
+
         private function mapClientes(array $registros) {
             $clientes = array();
             foreach($registros as $reg) {
@@ -70,33 +99,4 @@
             }
             return $clientes;
         }
-
-        public function buscarPorId($id) {
-            $sql = "SELECT * FROM clientes WHERE id = ?";
-        
-            $con = Conexao::getCon();
-        
-            $stm = $con->prepare($sql);
-            $stm->execute(array($id));
-            $registro = $stm->fetch();
-            
-            if ($registro) {
-                $cliente = null;
-                if($registro['tipo'] == 'F') {
-                    $cliente = new ClientePF();
-                    $cliente->setNome($registro['nome']);
-                    $cliente->setCpf($registro['cpf']);
-                } else {
-                    $cliente = new ClientePJ();
-                    $cliente->setRazaoSocial($registro['razao_social']);
-                    $cliente->setCnpj($registro['cnpj']);
-                }
-            
-                $cliente->setId($registro['id']);
-                $cliente->setNomeSocial($registro['nome_social']);
-                $cliente->setEmail($registro['email']);
-                    return $cliente;
-                }
-            }
-            
-        }
+    }
